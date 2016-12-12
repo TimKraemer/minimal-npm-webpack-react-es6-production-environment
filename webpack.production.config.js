@@ -31,14 +31,17 @@ module.exports = {
         loaders: [
             {
                 test: /\.js$/,
+                exclude: /node_modules/,
                 loaders: ['babel']
             },
             {
                 test: /\.css$/,
+                exclude: /node_modules/,
                 loaders: ["style", "css"]
             },
             {
                 test: /\.less$/,
+                exclude: /node_modules/,
                 loaders: ["style", "css", "less"]
             }
         ]
