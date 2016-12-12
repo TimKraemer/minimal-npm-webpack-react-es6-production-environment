@@ -13,6 +13,19 @@ app.use(webpackDevMiddleware(compiler, {
     publicPath: '/',
     stats: {
         colors: true,
+        hash: true,
+        version: false,
+        timings: true,
+        assets: true,
+        chunks: false,
+        modules: false,
+        reasons: true,
+        children: true,
+        source: true,
+        errors: true,
+        errorDetails: true,
+        warnings: true,
+        publicPath: true
     },
     historyApiFallback: true,
 }));
