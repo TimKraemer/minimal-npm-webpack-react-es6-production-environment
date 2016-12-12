@@ -32,6 +32,14 @@ module.exports = {
             {
                 test: /\.js$/,
                 loaders: ['babel']
+            },
+            {
+                test: /\.css$/,
+                loaders: ["style", "css"]
+            },
+            {
+                test: /\.less$/,
+                loaders: ["style", "css", "less"]
             }
         ]
     }
