@@ -1,2 +1,20 @@
-# webpack-react-es6-production-optimization
-Optimize Webpack + React + ES6 + Babel app production build file size
+# simple, clean and minimal
+This is a clean example React Project. It has everything you need for a quick and comfortable start into React.
+
+## use it
+1) Setup: `npm install`
+2) devel-server: `npm start` (live-server should be accessible at  `http://localhost:3000`)
+3) production build: `npm run production`
+(Production build will be in projects subfolder `prod` - just copy everything in there to your web-server and browser to `index.html`)
+
+## features
+
+* Hot Building: view your changes live after saving (using `webpackHotMiddleware`)
+* ES6 Support (`babel-es2015`)
+* Production optimization
+    * UglifyJs (minimalization)
+    * Common Chunks
+    * Deduplication
+    * ... results at the time of writing to a production-build with a total size of `137kb`
+    
+
