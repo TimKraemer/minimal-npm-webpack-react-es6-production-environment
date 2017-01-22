@@ -5,11 +5,15 @@ const WebpackExtractText = require('extract-text-webpack-plugin');
 
 const config = {
     context: path.join(__dirname, 'src'),
-    entry: ( process.env.NODE_ENV === 'development' ? [
-            'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
-            './index.js',
-        ] : './index.js'),
-
+    entry: {
+        main: ( process.env.NODE_ENV === 'development' ?
+                [
+                    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+                    './index.js'
+                ] : './index.js'
+        ),
+        vendor: ['react', 'react-dom']
+    },
     module: {
         rules: [
             {
@@ -79,7 +83,8 @@ const config = {
     },
 
     plugins: [
-        new webpack.DefinePlugin({
+        new webpack.DefinePlugin
+        ({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
         }),
         new WebpackExtractText({
