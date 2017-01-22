@@ -1,5 +1,4 @@
-dist
 node_modules
-/prod/js/
-.idea/workspace.xml
 npm-debug.log
+.idea/
+bundle/
