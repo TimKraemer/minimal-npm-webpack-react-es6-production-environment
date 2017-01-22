@@ -5,10 +5,10 @@ const WebpackExtractText = require('extract-text-webpack-plugin');
 
 const config = {
     context: path.join(__dirname, 'src'),
-    entry: [
-        'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
-        './index.js',
-    ],
+    entry: ( process.env.NODE_ENV === 'development' ? [
+            'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+            './index.js',
+        ] : './index.js'),
 
     module: {
         rules: [
@@ -26,6 +26,23 @@ const config = {
                             loader: 'css-loader',
                             query: {
                                 modules: true,
+                                minimize: true,
+                                localIdentName: '[name]__[local]___[hash:base64:5]',
+                                camelCase: 'dashes'
+                            }
+                        })
+                )
+            },
+            {
+                test: /\.less/,
+                loader: (
+                    process.env.NODE_ENV === 'development' ?
+                        'style-loader!css-loader!less-loader?modules' :
+                        WebpackExtractText.extract({
+                            loader: 'css-loader!less-loader',
+                            query: {
+                                modules: true,
+                                minimize: true,
                                 localIdentName: '[name]__[local]___[hash:base64:5]',
                                 camelCase: 'dashes'
                             }
@@ -62,8 +79,11 @@ const config = {
     },
 
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+        }),
         new WebpackExtractText({
-            filename: './assets/stylesheets/style.css',
+            filename: './assets/stylesheets/[hash].css',
             disable: process.env.NODE_ENV === 'development',
             allChunks: true
         }),
@@ -74,14 +94,14 @@ const config = {
         new HtmlWebpackPlugin({
             template: 'index.template.ejs',
             inject: 'body',
-        })
+        }),
+        new webpack.optimize.MinChunkSizePlugin({minChunkSize: 10000})
     ],
 
     output: {
         path: path.resolve(__dirname, 'bundle'),
         filename: process.env.NODE_ENV === 'production' ?
-            '[name].[hash].js' : '[name].js',
-        publicPath: '/',
+            '[name].[hash].js' : '[name].js'
     },
 
     resolve: {
