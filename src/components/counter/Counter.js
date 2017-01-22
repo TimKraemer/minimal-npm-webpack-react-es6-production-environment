@@ -17,9 +17,8 @@ class Counter extends React.Component {
             <button className={styles.button} onClick={() => {
                 this.setState({count: this.state.count + 1});
             }}>
-                <span style={{color: "red"}}>Test</span>
-                <img src={require("./arrow.png")} alt="arrow"/>
-                Counter: {this.state.count}
+                <img width={"15px"} src={require("./arrow.png")} alt="arrow"/>
+                <span dangerouslySetInnerHTML={{__html: require("./template.html")}}/> {this.state.count}
             </button>
         );
     }

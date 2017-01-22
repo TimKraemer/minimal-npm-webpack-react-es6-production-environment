@@ -53,6 +53,10 @@ const config = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.html$/,
+                loader: "html-loader"
             }
         ],
     },
@@ -84,8 +88,7 @@ const config = {
         modules: [
             'src',
             'node_modules',
-        ],
-        extensions: ['.js', '.jsx', '.json', '.css']
+        ]
     },
 
     devtool: 'cheap-source-map',
