@@ -8,50 +8,46 @@ const config = {
     entry: {
         main: ( process.env.NODE_ENV === 'development' ?
                 [
-                    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+                    'react-hot-loader/patch',
+                    'webpack-dev-server/client?http://localhost:8080',
+                    'webpack/hot/only-dev-server',
                     './index.js'
                 ] : './index.js'
         ),
-        vendor: ['react', 'react-dom']
+        // vendor: ['react', 'react-dom']
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loaders: ['react-hot-loader', 'babel-loader'],
+                use: ['babel-loader'],
             },
             {
-                test: /\.css$/,
-                loader: (
-                    process.env.NODE_ENV === 'development' ?
-                        'style-loader!css-loader?modules' :
-                        WebpackExtractText.extract({
+                test: /.*\.(css|less)$/i,
+                loader: WebpackExtractText.extract({
+                    fallbackLoader: 'style-loader',
+                    loader: [
+                        {
                             loader: 'css-loader',
                             query: {
                                 modules: true,
                                 minimize: true,
+                                importLoaders: 1,
                                 localIdentName: '[name]__[local]___[hash:base64:5]',
                                 camelCase: 'dashes'
                             }
-                        })
-                )
-            },
-            {
-                test: /\.less/,
-                loader: (
-                    process.env.NODE_ENV === 'development' ?
-                        'style-loader!css-loader!less-loader?modules' :
-                        WebpackExtractText.extract({
-                            loader: 'css-loader!less-loader',
+                        },
+                        {
+                            loader: 'postcss-loader',
                             query: {
-                                modules: true,
-                                minimize: true,
-                                localIdentName: '[name]__[local]___[hash:base64:5]',
-                                camelCase: 'dashes'
+                                config: path.join(__dirname, 'postcss.config.js')
                             }
-                        })
-                )
+                        },
+                        'less-loader'
+                    ]
+                })
+
             },
             {
                 test: /\.json$/,
@@ -96,6 +92,7 @@ const config = {
             names: ['vendor', 'manifest']
         }),
         new webpack.HotModuleReplacementPlugin(),
+        new webpack.NamedModulesPlugin(),
         new HtmlWebpackPlugin({
             template: 'index.template.ejs',
             inject: 'body',
@@ -116,7 +113,18 @@ const config = {
         ]
     },
 
-    devtool: 'cheap-source-map',
+    devServer: {
+        hot: true,
+        // enable HMR on the server
+
+        contentBase: path.resolve(__dirname, 'dist'),
+        // match the output path
+
+        publicPath: '/'
+        // match the output `publicPath`
+    },
+
+    devtool: 'inline-source-map',
 };
 
 if (process.env.NODE_ENV === 'production') {
