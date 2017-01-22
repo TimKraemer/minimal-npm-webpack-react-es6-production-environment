@@ -36,7 +36,7 @@ app.use(webpackHotMiddleware(compiler, {
     heartbeat: 10 * 1000,
 }));
 
-app.use(express.static(__dirname + '/devel'));
+app.use(express.static(__dirname));
 
 const server = app.listen(3000, function () {
     const host = server.address().address;
