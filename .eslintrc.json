@@ -16,8 +16,7 @@
 		"sourceType": "module"
 	},
 	"plugins": [
-		"react",
-		"react-native"
+		"react"
 	],
 	"rules": {
 		"comma-dangle": [
@@ -29,6 +28,10 @@
 				"exports": "always-multiline",
 				"functions": "never"
 			}
+		],
+		"quotes": [
+			"error",
+			"double"
 		]
 	}
 }

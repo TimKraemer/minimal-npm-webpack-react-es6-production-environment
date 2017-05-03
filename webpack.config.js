@@ -1,20 +1,20 @@
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WebpackExtractText = require('extract-text-webpack-plugin');
+const path = require("path");
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const WebpackExtractText = require("extract-text-webpack-plugin");
 
 const develEntry = [
-  'react-hot-loader/patch',
-  'webpack-dev-server/client?https://0.0.0.0:8080',
-  'webpack/hot/only-dev-server',
-  './index.jsx',
+  "react-hot-loader/patch",
+  "webpack-dev-server/client?https://0.0.0.0:8080",
+  "webpack/hot/only-dev-server",
+  "./index.jsx",
 ];
 
 const config = {
-  context: path.join(__dirname, 'src'),
+  context: path.join(__dirname, "src"),
   entry: {
     main: (
-      process.env.NODE_ENV === 'development' ? develEntry : './index.jsx'
+      process.env.NODE_ENV === "development" ? develEntry : "./index.jsx"
     ),
     // vendor: ['react', 'react-dom'],
   },
@@ -26,34 +26,34 @@ const config = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
         query: {
           cacheDirectory: true,
-          presets: ['es2015'],
+          presets: ["es2015"],
         },
       },
       {
         test: /\.css$/,
         loader: WebpackExtractText.extract({
-          fallback: 'style-loader',
+          fallback: "style-loader",
           use: [
             {
-              loader: 'css-loader',
+              loader: "css-loader",
               query: {
                 modules: true,
                 minimize: true,
                 importLoaders: 1,
-                localIdentName: '[name]__[local]___[hash:base64:5]',
-                camelCase: 'dashes',
+                localIdentName: "[name]__[local]___[hash:base64:5]",
+                camelCase: "dashes",
               },
             },
             {
-              loader: 'postcss-loader',
+              loader: "postcss-loader",
               query: {
-                config: path.join(__dirname, 'postcss.config.js'),
+                config: path.join(__dirname, "postcss.config.js"),
               },
             },
-            'less-loader',
+            "less-loader",
           ],
         }),
 
@@ -61,57 +61,57 @@ const config = {
       {
         test: /\.less$/,
         loader: WebpackExtractText.extract({
-          fallback: 'style-loader',
+          fallback: "style-loader",
           use: [
             {
-              loader: 'css-loader',
+              loader: "css-loader",
               query: {
                 minimize: true,
                 importLoaders: 1,
               },
             },
-            'less-loader',
+            "less-loader",
           ],
         }),
       },
       {
         test: /\.scss$/,
         loader: WebpackExtractText.extract({
-          fallback: 'style-loader',
+          fallback: "style-loader",
           use: [
             {
-              loader: 'css-loader',
+              loader: "css-loader",
               query: {
                 modules: true,
                 minimize: true,
                 importLoaders: 1,
-                localIdentName: '[name]__[local]___[hash:base64:5]',
-                camelCase: 'dashes',
+                localIdentName: "[name]__[local]___[hash:base64:5]",
+                camelCase: "dashes",
               },
             },
             {
-              loader: 'postcss-loader',
+              loader: "postcss-loader",
               query: {
-                config: path.join(__dirname, 'postcss.config.js'),
+                config: path.join(__dirname, "postcss.config.js"),
               },
             },
-            'sass-loader',
+            "sass-loader",
           ],
         }),
       },
       {
         test: /\.json$/,
-        loader: 'json-loader',
+        loader: "json-loader",
       },
       {
         test: /.*\.(gif|png|jpe?g|svg)$/i,
         loaders: [
-          'url-loader?limit=5000&name=assets/img/[hash].[ext]',
+          "url-loader?limit=5000&name=assets/img/[hash].[ext]",
           {
-            loader: 'image-webpack-loader',
+            loader: "image-webpack-loader",
             query: {
               pngquant: {
-                quality: '65-90',
+                quality: "65-90",
                 speed: 4,
                 floyd: 0.5,
               },
@@ -133,79 +133,86 @@ const config = {
       },
       {
         test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/font-woff',
+        loader: "url?limit=10000&mimetype=application/font-woff",
       },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/octet-stream',
+        loader: "url?limit=10000&mimetype=application/octet-stream",
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file',
+        loader: "file",
       },
       {
         test: /\.html$/,
-        loader: 'html-loader',
+        loader: "html-loader",
       },
     ],
   },
 
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV || "development"),
     }),
     new WebpackExtractText({
-      filename: './assets/stylesheets/[hash].css',
-      disable: process.env.NODE_ENV === 'development',
+      filename: "./assets/stylesheets/[hash].css",
+      disable: process.env.NODE_ENV === "development",
       allChunks: true,
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor', 'manifest'],
+      names: ["vendor", "manifest"],
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
-      template: 'index.template.ejs',
-      inject: 'body',
+      template: "index.template.ejs",
+      inject: "body",
     }),
     new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 10000 }),
   ],
 
   output: {
-    path: path.resolve(__dirname, 'bundle'),
-    filename: process.env.NODE_ENV === 'production' ?
-      '[name].[hash].js' : '[name].js',
+    path: path.resolve(__dirname, "bundle"),
+    filename: process.env.NODE_ENV === "production" ?
+      "[name].[hash].js" : "[name].js",
   },
 
   resolve: {
     modules: [
-      'src',
-      'node_modules',
+      "src",
+      "node_modules",
     ],
-    extensions: ['.web.js', '.js', '.jsx', '.json'],
+    extensions: [".web.js", ".js", ".jsx", ".json"],
   },
 
   devServer: {
     hot: true,
     // enable HMR on the server
 
-    contentBase: path.resolve(__dirname, 'dist'),
+    contentBase: path.resolve(__dirname, "dist"),
     // match the output path
 
-    publicPath: '/',
+    publicPath: "/",
     // match the output `publicPath`
   },
-  devtool: (process.env.NODE_DEV === 'development' ? 'source-map' : false),
+  devtool: (process.env.NODE_DEV === "development" ? "source-map" : false),
 };
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
   config.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
+      // Eliminate comments
+      comments: false,
+
+      // Compression specific options
       compress: {
+        // remove warnings
         warnings: false,
-      },
-      output: {
-        comments: false,
+
+        drop_debugger: true,
+
+        // Drop console statements
+        drop_console: true,
       },
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),

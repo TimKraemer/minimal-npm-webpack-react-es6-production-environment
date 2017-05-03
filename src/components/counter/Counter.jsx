@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./counter.css";
 
-const arrow = require('./arrow.png');
+const arrow = require("./arrow.png");
 
 /**
  * A counter button: tap the button to increase the count.
@@ -22,7 +22,7 @@ class Counter extends React.Component {
           this.setState({ count: this.state.count + 1 });
         }}
       >
-        <img width={'15px'} src={arrow} alt="arrow" />
+        <img width={"15px"} src={arrow} alt="arrow" />
         <span>
           <strong> Counter:</strong> {this.state.count}
         </span>
