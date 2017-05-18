@@ -4,8 +4,7 @@
 		"es6": true
 	},
 	"extends": [
-		"react",
-		"airbnb"
+		"react"
 	],
 	"parser": "babel-eslint",
 	"parserOptions": {
@@ -16,9 +15,22 @@
 		"sourceType": "module"
 	},
 	"plugins": [
-		"react"
+		"react",
+		"react-native"
 	],
 	"rules": {
+		"linebreak-style": [
+			"error",
+			"unix"
+		],
+		"quotes": [
+			"error",
+			"double"
+		],
+		"semi": [
+			"error",
+			"always"
+		],
 		"comma-dangle": [
 			"error",
 			{
@@ -28,10 +40,6 @@
 				"exports": "always-multiline",
 				"functions": "never"
 			}
-		],
-		"quotes": [
-			"error",
-			"double"
 		]
 	}
 }

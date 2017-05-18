@@ -50,7 +50,9 @@ const config = {
             {
               loader: "postcss-loader",
               query: {
-                config: path.join(__dirname, "postcss.config.js"),
+                plugins: [
+                  require("autoprefixer"),
+                ],
               },
             },
             "less-loader",
@@ -92,7 +94,9 @@ const config = {
             {
               loader: "postcss-loader",
               query: {
-                config: path.join(__dirname, "postcss.config.js"),
+                plugins: [
+                  require("autoprefixer"),
+                ],
               },
             },
             "sass-loader",
