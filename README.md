@@ -17,5 +17,5 @@ This is a clean example React Project. It has everything you need for a quick an
     * Deduplicate
     * CSS, SCSS (SASS), LESS support
     * ESLint linting
-    * ... results at the time of writing to a production-build with a total size of `252 kB`
+    * ... results at the time of writing to a production-build with a total size of `244 kB`
     
