@@ -15,8 +15,7 @@
 		"sourceType": "module"
 	},
 	"plugins": [
-		"react",
-		"react-native"
+		"react"
 	],
 	"rules": {
 		"linebreak-style": [
