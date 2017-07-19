@@ -18,9 +18,7 @@ render(App);
 // Hot Module Replacement API
 if (module.hot) {
   module.hot.accept("./components/counter/Counter", () => {
-    /* eslint global-require: 0 */
-    const NewApp = require("./components/counter/Counter").default;
-    render(NewApp);
+    render(App);
   });
 }
 
