@@ -112,7 +112,7 @@ const config = {
       {
         test: /.*\.(gif|png|jpe?g|svg)$/i,
         loaders: [
-          "url-loader?limit=5000&name=assets/img/[contenthash].[ext]",
+          "url-loader?limit=5000&name=assets/img/[hash].[ext]",
           {
             loader: "image-webpack-loader",
             query: {
