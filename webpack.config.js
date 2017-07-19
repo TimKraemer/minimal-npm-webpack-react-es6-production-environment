@@ -4,12 +4,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackExtractText = require("extract-text-webpack-plugin");
 
 const develEntry = [
+  "babel-polyfill",
   "react-hot-loader/patch",
   "webpack-dev-server/client?https://0.0.0.0:8080",
   "webpack/hot/only-dev-server",
   "./index.jsx",
 ];
 
+// noinspection JSUnresolvedFunction
 const config = {
   context: path.join(__dirname, "src"),
   entry: {
@@ -19,9 +21,6 @@ const config = {
     // vendor: ['react', 'react-dom'],
   },
   module: {
-    // TODO: this seems to suppress
-    // "Critical dependency: the request of a dependency is an expression" warnings
-    exprContextCritical: false,
     rules: [
       {
         test: /\.jsx?$/,
@@ -219,7 +218,7 @@ if (process.env.NODE_ENV === "production") {
         drop_console: true,
       },
     }),
-    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(true),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.AggressiveMergingPlugin()
   );

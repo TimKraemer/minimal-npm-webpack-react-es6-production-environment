@@ -1,12 +1,12 @@
 {
 	"presets": [
 		[
-			"es2015",
+			"modern-browsers",
 			{
-				"modules": false
+				"edge": true
 			}
 		],
-		"env",
+		"stage-2",
 		"react"
 	],
 	"plugins": [
