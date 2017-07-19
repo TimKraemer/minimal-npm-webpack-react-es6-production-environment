@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
-import App from "./components/counter/Counter";
+import Counter from "./components/counter/Counter";
 
 const render = (App) => {
   ReactDOM.render(
@@ -12,13 +12,13 @@ const render = (App) => {
   );
 };
 
-render(App);
+render(Counter);
 
 // Hot Module Replacement API
 if (module.hot) {
   module.hot.accept("./components/counter/Counter", () => {
-    const App = require("./components/counter/Counter").default;
-    render(App);
+    const HotCounter = require("./components/counter/Counter").default;
+    render(HotCounter);
   });
 }
 
