@@ -3,9 +3,9 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
 const WebpackExtractText = require("extract-text-webpack-plugin");
-const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
 const WebpackChunkHash = require("webpack-chunk-hash");
 const InlineManifestWebpackPlugin = require("inline-manifest-webpack-plugin");
+const autoprefixer = require("autoprefixer");
 
 const develEntry = [
   "babel-polyfill",
@@ -53,7 +53,7 @@ const config = {
               loader: "postcss-loader",
               query: {
                 plugins: [
-                  require("autoprefixer"),
+                  autoprefixer,
                 ],
               },
             },
@@ -97,7 +97,7 @@ const config = {
               loader: "postcss-loader",
               query: {
                 plugins: [
-                  require("autoprefixer"),
+                  autoprefixer,
                 ],
               },
             },
@@ -177,10 +177,6 @@ const config = {
       minChunks: Infinity,
     }),
     new WebpackChunkHash(),
-    new ChunkManifestPlugin({
-      filename: "chunk-manifest.json",
-      manifestVariable: "webpackManifest",
-    }),
     new HtmlWebpackPlugin({
       template: "index.template.ejs",
       inject: "body",
@@ -244,8 +240,7 @@ if (process.env.NODE_ENV === "production") {
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.HashedModuleIdsPlugin()
   );
-}
-else if (process.env.NODE_ENV === "development") {
+} else if (process.env.NODE_ENV === "development") {
   config.plugins.push(
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin()
