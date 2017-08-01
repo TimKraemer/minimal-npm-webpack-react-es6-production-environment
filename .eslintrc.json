@@ -4,7 +4,8 @@
 		"es6": true
 	},
 	"extends": [
-		"airbnb"
+		"airbnb",
+		"prettier"
 	],
 	"parser": "babel-eslint",
 	"parserOptions": {
@@ -15,29 +16,14 @@
 		"sourceType": "module"
 	},
 	"plugins": [
-		"react"
+		"react",
+		"prettier"
 	],
 	"rules": {
-		"linebreak-style": [
-			"error",
-			"unix"
-		],
-		"quotes": [
-			"error",
-			"double"
-		],
-		"semi": [
-			"error",
-			"always"
-		],
-		"comma-dangle": [
+		"prettier/prettier": [
 			"error",
 			{
-				"arrays": "always-multiline",
-				"objects": "always-multiline",
-				"imports": "always-multiline",
-				"exports": "always-multiline",
-				"functions": "never"
+				"trailingComma": "es5"
 			}
 		]
 	}

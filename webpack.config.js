@@ -19,9 +19,7 @@ const develEntry = [
 const config = {
   context: path.join(__dirname, "src"),
   entry: {
-    main: (
-      process.env.NODE_ENV === "development" ? develEntry : "./index.jsx"
-    ),
+    main: process.env.NODE_ENV === "development" ? develEntry : "./index.jsx",
   },
   module: {
     rules: [
@@ -52,15 +50,12 @@ const config = {
             {
               loader: "postcss-loader",
               query: {
-                plugins: [
-                  autoprefixer,
-                ],
+                plugins: [autoprefixer],
               },
             },
             "less-loader",
           ],
         }),
-
       },
       {
         test: /\.less$/,
@@ -96,9 +91,7 @@ const config = {
             {
               loader: "postcss-loader",
               query: {
-                plugins: [
-                  autoprefixer,
-                ],
+                plugins: [autoprefixer],
               },
             },
             "sass-loader",
@@ -128,10 +121,7 @@ const config = {
               },
               optipng: { optimizationLevel: 7 },
               svgo: {
-                plugins: [
-                  { removeTitle: true },
-                  { convertPathData: false },
-                ],
+                plugins: [{ removeTitle: true }, { convertPathData: false }],
               },
             },
           },
@@ -158,18 +148,22 @@ const config = {
 
   plugins: [
     new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV || "development"),
+      "process.env.NODE_ENV": JSON.stringify(
+        process.env.NODE_ENV || "development"
+      ),
     }),
     new WebpackExtractText({
       filename: "./assets/stylesheets/[contenthash].css",
       disable: process.env.NODE_ENV === "development",
       allChunks: true,
     }),
-    new webpack.NamedChunksPlugin((chunk) => {
+    new webpack.NamedChunksPlugin(chunk => {
       if (chunk.name) {
         return chunk.name;
       }
-      return chunk.mapModules(m => path.relative(m.context, m.request)).join("_");
+      return chunk
+        .mapModules(m => path.relative(m.context, m.request))
+        .join("_");
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: ["vendor", "manifest"],
@@ -192,15 +186,14 @@ const config = {
 
   output: {
     path: path.resolve(__dirname, "bundle"),
-    filename: process.env.NODE_ENV === "production" ?
-      "[name].[chunkhash].js" : "[name].js",
+    filename:
+      process.env.NODE_ENV === "production"
+        ? "[name].[chunkhash].js"
+        : "[name].js",
   },
 
   resolve: {
-    modules: [
-      "src",
-      "node_modules",
-    ],
+    modules: ["src", "node_modules"],
     extensions: [".web.js", ".js", ".jsx", ".json"],
   },
 
@@ -215,7 +208,7 @@ const config = {
     // match the output `publicPath`
   },
 
-  devtool: (process.env.NODE_DEV === "development" ? "source-map" : false),
+  devtool: process.env.NODE_DEV === "development" ? "source-map" : false,
 };
 
 if (process.env.NODE_ENV === "production") {

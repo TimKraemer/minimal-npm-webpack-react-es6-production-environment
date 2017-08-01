@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
 import Counter from "./components/counter/Counter";
 
-const render = (App) => {
+const render = App => {
   ReactDOM.render(
     <AppContainer>
       <App />
@@ -22,4 +22,3 @@ if (module.hot) {
     render(HotCounter);
   });
 }
-
