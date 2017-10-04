@@ -105,7 +105,12 @@ const config = {
       {
         test: /.*\.(gif|png|jpe?g|svg)$/i,
         loaders: [
-          "url-loader?limit=5000&name=assets/img/[hash].[ext]",
+          {
+            loader: "url-loader?name=assets/img/[hash].[ext]",
+            options: {
+              limit: 5000,
+            },
+          },
           {
             loader: "image-webpack-loader",
             query: {
@@ -129,11 +134,27 @@ const config = {
       },
       {
         test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "url-loader?limit=10000&mimetype=application/font-woff",
+        use: [
+          {
+            loader: "url-loader?name=assets/img/[hash].[ext]",
+            options: {
+              limit: 10000,
+              mimetype: "application/font-woff",
+            },
+          },
+        ],
       },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "url-loader?limit=10000&mimetype=application/octet-stream",
+        use: [
+          {
+            loader: "url-loader?name=assets/img/[hash].[ext]",
+            options: {
+              limit: 10000,
+              mimetype: "application/octet-stream",
+            },
+          },
+        ],
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
