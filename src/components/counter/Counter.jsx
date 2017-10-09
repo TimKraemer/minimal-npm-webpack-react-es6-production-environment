@@ -22,7 +22,7 @@ class Counter extends React.Component {
           this.setState({ count: this.state.count + 1 });
         }}
       >
-        <img width={"15px"} src={arrow} alt="arrow" />
+        <img width="15px" src={arrow} alt="arrow" />
         <span>
           <strong>Counter: </strong> {this.state.count}
         </span>
