@@ -33,7 +33,7 @@
 		"eslint-plugin-jsx-a11y": "^6.0.2",
 		"eslint-plugin-prettier": "^2.3.1",
 		"eslint-plugin-react": "^7.4.0",
-		"express": "^4.16.1",
+		"express": "^4.16.2",
 		"extract-text-webpack-plugin": "^3.0.1",
 		"file-loader": "^1.1.5",
 		"html-loader": "^0.5.1",
@@ -43,7 +43,7 @@
 		"less": "^2.7.2",
 		"less-loader": "^4.0.3",
 		"node-sass": "^4.4.0",
-		"postcss-loader": "^2.0.5",
+		"postcss-loader": "^2.0.7",
 		"prettier": "^1.7.4",
 		"redbox-react": "^1.5.0",
 		"sass-loader": "^6.0.3",
@@ -58,6 +58,6 @@
 		"babel-polyfill": "^6.26.0",
 		"react": "^16.0.0",
 		"react-dom": "^16.0.0",
-		"react-hot-loader": "^3.0.0-beta.7"
+		"react-hot-loader": "^3.0.0"
 	}
 }
