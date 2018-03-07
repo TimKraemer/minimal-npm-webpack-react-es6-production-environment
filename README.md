@@ -18,5 +18,5 @@ web-server navigate to `index.html`)
     * Deduplicate
     * CSS, SCSS (SASS), LESS support
     * ESLint linting
-    * ... results at the time of writing to a production-build with a total size of `148 kB`
+    * ... results at the time of writing to a production-build with a total size of `16 kB`
     
