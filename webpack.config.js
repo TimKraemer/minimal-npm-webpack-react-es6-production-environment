@@ -58,7 +58,13 @@ module.exports = {
                 importLoaders: 1,
               },
             },
-            "less-loader",
+            {
+              loader: "less-loader",
+              query: {
+                relativeUrls: true,
+                javascriptEnabled: true,
+              },
+            },
           ],
         }),
       },
