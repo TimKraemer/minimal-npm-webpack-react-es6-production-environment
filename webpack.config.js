@@ -1,35 +1,24 @@
-const path = require("path");
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
 const WebpackExtractText = require("extract-text-webpack-plugin");
-const WebpackChunkHash = require("webpack-chunk-hash");
-const InlineManifestWebpackPlugin = require("inline-manifest-webpack-plugin");
 const autoprefixer = require("autoprefixer");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
-const develEntry = [
-  "babel-polyfill",
-  "react-hot-loader/patch",
-  "webpack-dev-server/client?https://0.0.0.0:8080",
-  "webpack/hot/only-dev-server",
-  "./index.jsx",
-];
-
-// noinspection JSUnresolvedFunction
-const config = {
-  context: path.join(__dirname, "src"),
-  entry: {
-    main: process.env.NODE_ENV === "development" ? develEntry : "./index.jsx",
+module.exports = {
+  resolve: {
+    modules: ["src", "node_modules"],
+    extensions: [".js", ".jsx", ".json"],
   },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.jsx$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
-        query: {
-          cacheDirectory: true,
-          presets: ["es2015"],
+        use: {
+          loader: "babel-loader",
+          options: {
+            cacheDirectory: true,
+            plugins: ["react-hot-loader/babel"],
+          },
         },
       },
       {
@@ -162,103 +151,44 @@ const config = {
       },
       {
         test: /\.html$/,
-        loader: "html-loader",
+        use: [
+          {
+            loader: "html-loader",
+            options: { minimize: true },
+          },
+        ],
       },
     ],
   },
-
   plugins: [
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify(
-        process.env.NODE_ENV || "development"
-      ),
-    }),
     new WebpackExtractText({
       filename: "./assets/stylesheets/[contenthash].css",
       disable: process.env.NODE_ENV === "development",
       allChunks: true,
     }),
-    new webpack.NamedChunksPlugin(chunk => {
-      if (chunk.name) {
-        return chunk.name;
-      }
-      return chunk
-        .mapModules(m => path.relative(m.context, m.request))
-        .join("_");
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ["vendor", "manifest"],
-      // minChunks: ({ resource }) => /node_modules/.test(resource),
-      minChunks: Infinity,
-    }),
-    new WebpackChunkHash(),
     new HtmlWebpackPlugin({
-      template: "index.template.ejs",
+      template: "src/index.html",
       inject: "body",
     }),
-    new ScriptExtHtmlWebpackPlugin({
-      defaultAttribute: "defer",
-    }),
-    new InlineManifestWebpackPlugin({
-      name: "webpackManifest",
-    }),
-    new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 10000 }),
-  ],
-
-  output: {
-    path: path.resolve(__dirname, "bundle"),
-    filename:
-      process.env.NODE_ENV === "production"
-        ? "[name].[chunkhash].js"
-        : "[name].js",
-  },
-
-  resolve: {
-    modules: ["src", "node_modules"],
-    extensions: [".web.js", ".js", ".jsx", ".json"],
-  },
-
-  devServer: {
-    hot: true,
-    // enable HMR on the server
-
-    contentBase: path.resolve(__dirname, "dist"),
-    // match the output path
-
-    publicPath: "/",
-    // match the output `publicPath`
-  },
-
-  devtool: process.env.NODE_DEV === "development" ? "source-map" : false,
-};
-
-if (process.env.NODE_ENV === "production") {
-  config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      // Eliminate comments
-      comments: false,
-
-      // Compression specific options
-      compress: {
-        // remove warnings
+    new UglifyJsPlugin({
+      uglifyOptions: {
         warnings: false,
-
-        drop_debugger: true,
-
-        // Drop console statements
-        drop_console: true,
+        output: {
+          comments: false,
+          beautify: false,
+        },
+        compress: {
+          ecma: 6,
+          drop_console: true,
+          keep_fargs: false, // You need this to be true for code which relies on Function.length.
+          keep_fnames: false,
+          passes: 3,
+        },
+        ie8: true,
+        keep_classnames: false,
+        keep_fnames: false,
+        safari10: true,
       },
     }),
-    new webpack.optimize.OccurrenceOrderPlugin(true),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.HashedModuleIdsPlugin()
-  );
-} else if (process.env.NODE_ENV === "development") {
-  config.plugins.push(
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin()
-  );
-}
-
-module.exports = config;
+  ],
+};
