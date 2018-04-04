@@ -168,7 +168,7 @@ module.exports = {
   },
   plugins: [
     new WebpackExtractText({
-      filename: "./assets/stylesheets/[contenthash].css",
+      filename: "./assets/stylesheets/[md5:contenthash:hex:20].css",
       disable: process.env.NODE_ENV === "development",
       allChunks: true,
     }),
