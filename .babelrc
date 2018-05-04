@@ -1,12 +1,7 @@
 {
 	"presets": [
 		"env",
-		[
-			"modern-browsers",
-			{
-				"edge": true
-			}
-		],
+		"modern-browsers",
 		"react"
 	],
 	"plugins": [
