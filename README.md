@@ -9,10 +9,11 @@ This is a clean example React Project. It has everything you need for a quick an
 
 ## features
 
+* Ant Design Integration
 * Webpack 4
 * Hot Building: view your changes live after saving
 * ES6 Support
 * CSS, SCSS (SASS), LESS support
 * ESLint linting
-* ... results at the time of writing to a production-build with a total size of `232 kB`
+* ... results at the time of writing to a production-build with a total size of `312 kB`
     

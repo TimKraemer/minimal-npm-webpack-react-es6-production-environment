@@ -5,6 +5,13 @@
 		"react"
 	],
 	"plugins": [
+		[
+			"import",
+			{
+				"libraryName": "antd",
+				"style": true
+			}
+		],
 		"react-hot-loader/babel"
 	]
 }

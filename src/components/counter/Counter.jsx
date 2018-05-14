@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "antd";
 import styles from "./counter.scss";
 
 const arrow = require("./arrow.svg");
@@ -16,7 +17,7 @@ class Counter extends React.Component {
 
   render() {
     return (
-      <button
+      <Button
         className={styles.button}
         onClick={() => {
           this.setState({ count: this.state.count + 1 });
@@ -26,8 +27,9 @@ class Counter extends React.Component {
         <span>
           <strong>Counter: </strong> {this.state.count}
         </span>
-      </button>
+      </Button>
     );
   }
 }
+
 export default Counter;
