@@ -26,9 +26,9 @@ module.exports = {
           {
             loader: "css-loader",
             query: {
-              minimize: true,
-              importLoaders: 1,
-              localIdentName: "[name]__[local]--[hash]",
+              modules: true,
+              importLoaders: 2,
+              localIdentName: "[name]__[local]--[hash:base64:5]",
               camelCase: "dashes"
             },
           },
@@ -48,11 +48,17 @@ module.exports = {
           {
             loader: "css-loader",
             query: {
-              minimize: true,
-              importLoaders: 1,
-              localIdentName: "[name]__[local]--[hash]",
+              modules: true,
+              importLoaders: 2,
+              localIdentName: "[name]__[local]--[hash:base64:5]",
               camelCase: "dashes"
             },
+          },
+          {
+            loader: "postcss-loader",
+            query: {
+              plugins: [autoprefixer]
+            }
           },
           {
             loader: "less-loader",
@@ -145,9 +151,9 @@ module.exports = {
           options: {
             cacheDirectory: true,
             plugins: ["react-hot-loader/babel"]
-          }
-        }
-      ]
+          },
+        },
+      ],
     }),
     new HardSourceWebpackPlugin(),
     new MiniCssExtractPlugin({
@@ -186,8 +192,8 @@ module.exports = {
           keep_classnames: false,
           keep_fnames: false,
           safari10: true
-        }
-      })
-    ]
-  }
+        },
+      }),
+    ],
+  },
 };
