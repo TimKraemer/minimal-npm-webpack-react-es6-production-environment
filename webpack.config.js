@@ -1,7 +1,9 @@
-const WebpackExtractText = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const autoprefixer = require("autoprefixer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+
+const devMode = process.env.NODE_ENV !== "production";
 
 module.exports = {
   resolve: {
@@ -22,76 +24,56 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/,
-        loader: WebpackExtractText.extract({
-          fallback: "style-loader",
-          use: [
-            {
-              loader: "css-loader",
-              query: {
-                modules: true,
-                minimize: true,
-                importLoaders: 1,
-                localIdentName: "[name]__[local]--[hash:base64:5]",
-                camelCase: "dashes",
-              },
-            },
-            {
-              loader: "postcss-loader",
-              query: {
-                plugins: [autoprefixer],
-              },
-            },
-            "less-loader",
-          ],
-        }),
+        test: /\.s?[ac]ss$/,
+        use: [
+          devMode ? "style-loader" : MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            query: {
+              modules: true,
+              minimize: true,
+              importLoaders: 1,
+              localIdentName: "[name]__[local]--[hash:base64:5]",
+              camelCase: "dashes"
+            }
+          },
+          {
+            loader: "postcss-loader",
+            query: {
+              plugins: [autoprefixer]
+            }
+          },
+          "sass-loader"
+        ]
       },
       {
         test: /\.less$/,
-        loader: WebpackExtractText.extract({
-          fallback: "style-loader",
-          use: [
-            {
-              loader: "css-loader",
-              query: {
-                minimize: true,
-                importLoaders: 1,
-              },
-            },
-            {
-              loader: "less-loader",
-              query: {
-                relativeUrls: true,
-                javascriptEnabled: true,
-              },
-            },
-          ],
-        }),
-      },
-      {
-        test: /\.scss$/,
-        loader: WebpackExtractText.extract({
-          fallback: "style-loader",
-          use: [
-            {
-              loader: "css-loader",
-              query: {
-                modules: true,
-                minimize: true,
-                importLoaders: 1,
-                localIdentName: "[name]__[local]--[hash:base64:5]",
-                camelCase: "dashes",
-              },
-            },
-            {
-              loader: "postcss-loader",
-              query: {
-                plugins: [autoprefixer],
-              },
-            },
-            "fast-sass-loader"
-          ],
-        }),
+        use: [
+          devMode ? "style-loader" : MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            query: {
+              modules: true,
+              minimize: true,
+              importLoaders: 1,
+              localIdentName: "[name]__[local]--[hash:base64:5]",
+              camelCase: "dashes"
+            }
+          },
+          {
+            loader: "postcss-loader",
+            query: {
+              plugins: [autoprefixer]
+            }
+          },
+          {
+            loader: "less-loader",
+            query: {
+              relativeUrls: true,
+              javascriptEnabled: true
+            }
+          }
+        ]
       },
       {
         test: /\.json$/,
@@ -167,10 +149,11 @@ module.exports = {
     ],
   },
   plugins: [
-    new WebpackExtractText({
-      filename: "./assets/stylesheets/[md5:contenthash:hex:20].css",
-      disable: process.env.NODE_ENV === "development",
-      allChunks: true,
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: devMode ? "[name].css" : "./assets/stylesheets/[hash].css",
+      chunkFilename: devMode ? "[id].css" : "[id].[hash].css"
     }),
     new HtmlWebpackPlugin({
       template: "src/index.html",
