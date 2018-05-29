@@ -1,9 +1,11 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HappyPack = require("happypack");
+const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const autoprefixer = require("autoprefixer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
-const devMode = process.env.NODE_ENV !== "production";
+const devMode = process.env.NODE_ENV === "development";
 
 module.exports = {
   resolve: {
@@ -15,13 +17,7 @@ module.exports = {
       {
         test: /\.jsx$/,
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            cacheDirectory: true,
-            plugins: ["react-hot-loader/babel"],
-          },
-        },
+        use: "happypack/loader"
       },
       {
         test: /\.s?[ac]ss$/,
@@ -30,10 +26,9 @@ module.exports = {
           {
             loader: "css-loader",
             query: {
-              modules: true,
               minimize: true,
               importLoaders: 1,
-              localIdentName: "[name]__[local]--[hash:base64:5]",
+              localIdentName: "[name]__[local]--[hash]",
               camelCase: "dashes"
             },
           },
@@ -53,17 +48,10 @@ module.exports = {
           {
             loader: "css-loader",
             query: {
-              modules: true,
               minimize: true,
               importLoaders: 1,
-              localIdentName: "[name]__[local]--[hash:base64:5]",
+              localIdentName: "[name]__[local]--[hash]",
               camelCase: "dashes"
-            },
-          },
-          {
-            loader: "postcss-loader",
-            query: {
-              plugins: [autoprefixer]
             },
           },
           {
@@ -149,6 +137,19 @@ module.exports = {
     ],
   },
   plugins: [
+    new HappyPack({
+      threads: 4,
+      loaders: [
+        {
+          loader: "babel-loader",
+          options: {
+            cacheDirectory: true,
+            plugins: ["react-hot-loader/babel"]
+          }
+        }
+      ]
+    }),
+    new HardSourceWebpackPlugin(),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
@@ -159,25 +160,34 @@ module.exports = {
       template: "src/index.html",
       inject: "body",
     }),
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        warnings: false,
-        output: {
-          comments: false,
-          beautify: false,
-        },
-        compress: {
-          ecma: 6,
-          drop_console: true,
-          keep_fargs: false, // You need this to be true for code which relies on Function.length.
-          keep_fnames: false,
-          passes: 3,
-        },
-        ie8: true,
-        keep_classnames: false,
-        keep_fnames: false,
-        safari10: true,
-      },
-    }),
   ],
+  devtool: devMode ? "cheap-eval-source-map" : false,
+  output: {
+    pathinfo: false
+  },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        sourceMap: false,
+        uglifyOptions: {
+          warnings: false,
+          output: {
+            comments: false,
+            beautify: false
+          },
+          compress: {
+            ecma: 6,
+            drop_console: true,
+            keep_fargs: false, // You need this to be true for code which relies on Function.length.
+            keep_fnames: false,
+            passes: 3
+          },
+          ie8: true,
+          keep_classnames: false,
+          keep_fnames: false,
+          safari10: true
+        }
+      })
+    ]
+  }
 };
