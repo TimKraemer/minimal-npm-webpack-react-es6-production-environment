@@ -15,6 +15,7 @@
 	"author": "Tim Krämer",
 	"license": "ISC",
 	"devDependencies": {
+		"ajv": "^5.0.0",
 		"autoprefixer": "^8.5.1",
 		"babel-cli": "^6.26.0",
 		"babel-core": "^6.26.3",
@@ -46,13 +47,13 @@
 		"style-loader": "^0.21.0",
 		"uglifyjs-webpack-plugin": "^1.2.5",
 		"url-loader": "^1.0.1",
-		"webpack": "^4.10.0",
+		"webpack": "^4.10.1",
 		"webpack-cli": "^2.1.4",
-		"webpack-dev-server": "^3.1.4"
+		"webpack-dev-server": "^3.1.4",
+		"hard-source-webpack-plugin": "^0.7.2"
 	},
 	"dependencies": {
 		"babel-polyfill": "^6.26.0",
-		"hard-source-webpack-plugin": "^0.7.2",
 		"react": "^16.4.0",
 		"react-dom": "^16.4.0",
 		"react-hot-loader": "^4.2.0"
