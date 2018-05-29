@@ -35,16 +35,16 @@ module.exports = {
               importLoaders: 1,
               localIdentName: "[name]__[local]--[hash:base64:5]",
               camelCase: "dashes"
-            }
+            },
           },
           {
             loader: "postcss-loader",
             query: {
               plugins: [autoprefixer]
-            }
+            },
           },
-          "sass-loader"
-        ]
+          "fast-sass-loader"
+        ],
       },
       {
         test: /\.less$/,
@@ -58,22 +58,22 @@ module.exports = {
               importLoaders: 1,
               localIdentName: "[name]__[local]--[hash:base64:5]",
               camelCase: "dashes"
-            }
+            },
           },
           {
             loader: "postcss-loader",
             query: {
               plugins: [autoprefixer]
-            }
+            },
           },
           {
             loader: "less-loader",
             query: {
               relativeUrls: true,
               javascriptEnabled: true
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       {
         test: /\.json$/,
