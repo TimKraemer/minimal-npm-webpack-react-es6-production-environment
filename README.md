@@ -14,5 +14,5 @@ This is a clean example React Project. It has everything you need for a quick an
 * ES6 Support
 * CSS, SCSS (SASS), LESS support
 * ESLint linting
-* ... results at the time of writing to a production-build with a total size of `232 kB`
+* ... results at the time of writing to a production-build with a total size of `228 kB`
     

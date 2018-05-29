@@ -20,6 +20,15 @@
 		"prettier"
 	],
 	"rules": {
+		"react/forbid-prop-types": [
+			2,
+			{
+				"forbid": [
+					"any",
+					"array"
+				]
+			}
+		],
 		"prettier/prettier": [
 			"error",
 			{
