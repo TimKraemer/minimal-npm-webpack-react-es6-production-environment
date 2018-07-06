@@ -4,6 +4,7 @@ const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const autoprefixer = require("autoprefixer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const path = require("path");
 
 module.exports = (env, argv) => {
   const devMode = argv.mode === "development";
@@ -38,7 +39,7 @@ module.exports = (env, argv) => {
                 plugins: [autoprefixer],
               },
             },
-            "fast-sass-loader",
+            // "fast-sass-loader", // FIXME: has known vulnerabilities (deactivated until fixed)
           ],
         },
         {
@@ -82,25 +83,25 @@ module.exports = (env, argv) => {
                 limit: 5000,
               },
             },
-            {
-              loader: "image-webpack-loader",
-              query: {
-                pngquant: {
-                  quality: "65-90",
-                  speed: 4,
-                  floyd: 0.5,
-                },
-                gifsicle: { interlaced: false },
-                jpegtran: {
-                  progressive: true,
-                  arithmetic: false,
-                },
-                optipng: { optimizationLevel: 7 },
-                svgo: {
-                  plugins: [{ removeTitle: true }, { convertPathData: false }],
-                },
-              },
-            },
+            // { // FIXME: has known vulnerabilities (deactivated until fixed)
+            //   loader: "image-webpack-loader",
+            //   query: {
+            //     pngquant: {
+            //       quality: "65-90",
+            //       speed: 4,
+            //       floyd: 0.5,
+            //     },
+            //     gifsicle: { interlaced: false },
+            //     jpegtran: {
+            //       progressive: true,
+            //       arithmetic: false,
+            //     },
+            //     optipng: { optimizationLevel: 7 },
+            //     svgo: {
+            //       plugins: [{ removeTitle: true }, { convertPathData: false }],
+            //     },
+            //   },
+            // },
           ],
         },
         {
@@ -169,9 +170,27 @@ module.exports = (env, argv) => {
     ],
     devtool: devMode ? "cheap-eval-source-map" : false,
     output: {
+      filename: "[name].[hash].js",
       pathinfo: false,
     },
     optimization: {
+      runtimeChunk: true,
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            chunks: "initial",
+            test: path.resolve(__dirname, "node_modules"),
+            name: "vendor",
+            enforce: true,
+          },
+          commons: {
+            chunks: "initial",
+            minChunks: 3,
+            name: "commons",
+            enforce: true,
+          },
+        },
+      },
       minimizer: [
         new UglifyJsPlugin({
           sourceMap: false,
