@@ -39,7 +39,7 @@ module.exports = (env, argv) => {
                 plugins: [autoprefixer],
               },
             },
-            // "fast-sass-loader", // FIXME: has known vulnerabilities (deactivated until fixed)
+            "fast-sass-loader",
           ],
         },
         {
