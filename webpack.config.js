@@ -12,6 +12,9 @@ module.exports = (env, argv) => {
     resolve: {
       modules: ["src", "node_modules"],
       extensions: [".js", ".jsx", ".json"],
+      alias: {
+        "react-dom": "@hot-loader/react-dom",
+      },
     },
     module: {
       rules: [
@@ -83,25 +86,25 @@ module.exports = (env, argv) => {
                 limit: 5000,
               },
             },
-            // { // FIXME: has known vulnerabilities (deactivated until fixed)
-            //   loader: "image-webpack-loader",
-            //   query: {
-            //     pngquant: {
-            //       quality: "65-90",
-            //       speed: 4,
-            //       floyd: 0.5,
-            //     },
-            //     gifsicle: { interlaced: false },
-            //     jpegtran: {
-            //       progressive: true,
-            //       arithmetic: false,
-            //     },
-            //     optipng: { optimizationLevel: 7 },
-            //     svgo: {
-            //       plugins: [{ removeTitle: true }, { convertPathData: false }],
-            //     },
-            //   },
-            // },
+            {
+              loader: "image-webpack-loader",
+              query: {
+                pngquant: {
+                  quality: "65-90",
+                  speed: 4,
+                  floyd: 0.5,
+                },
+                gifsicle: { interlaced: false },
+                jpegtran: {
+                  progressive: true,
+                  arithmetic: false,
+                },
+                optipng: { optimizationLevel: 7 },
+                svgo: {
+                  plugins: [{ removeTitle: true }, { convertPathData: false }],
+                },
+              },
+            },
           ],
         },
         {
@@ -201,7 +204,6 @@ module.exports = (env, argv) => {
               beautify: false,
             },
             compress: {
-              ecma: 6,
               drop_console: true,
               keep_fargs: false, // You need this to be true for code which relies on Function.length.
               keep_fnames: false,
