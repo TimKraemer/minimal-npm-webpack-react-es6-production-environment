@@ -12,8 +12,9 @@ This is a clean example React Project. It has everything you need for a quick an
 * Webpack 4
 * Hot Building: view your changes live after saving
 * ES6 Support
+* Polyfills
 * CSS, SCSS (SASS), LESS support
 * ESLint linting
 * Module Chunking
-* ... results at the time of writing to a production-build with a total size of `216 kB`
+* ... results at the time of writing to a production-build with a total size of `236 kB`
     

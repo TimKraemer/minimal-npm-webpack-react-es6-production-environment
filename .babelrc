@@ -1,10 +1,26 @@
 {
 	"presets": [
-		"@babel/preset-env",
-		"modern-browsers",
+		[
+			"@babel/preset-env",
+			{
+				"useBuiltIns": "usage",
+				"debug": false,
+				"corejs": 3
+			}
+		],
 		"@babel/preset-react"
 	],
 	"plugins": [
-		"react-hot-loader/babel"
+		"react-hot-loader/babel",
+		[
+			"@babel/plugin-transform-runtime",
+			{
+				"absoluteRuntime": false,
+				"corejs": 3,
+				"helpers": true,
+				"regenerator": true,
+				"useESModules": true
+			}
+		]
 	]
 }

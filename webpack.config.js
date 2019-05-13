@@ -6,8 +6,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const path = require("path");
 
-module.exports = (env, argv) => {
-  const devMode = argv.mode === "development";
+const webpack = require("webpack");
+
+module.exports = () => {
   return {
     resolve: {
       modules: ["src", "node_modules"],
@@ -26,7 +27,7 @@ module.exports = (env, argv) => {
         {
           test: /\.s?[ac]ss$/,
           use: [
-            devMode ? "style-loader" : MiniCssExtractPlugin.loader,
+            webpack.mode ? "style-loader" : MiniCssExtractPlugin.loader,
             {
               loader: "css-loader",
               query: {
@@ -48,7 +49,7 @@ module.exports = (env, argv) => {
         {
           test: /\.less$/,
           use: [
-            devMode ? "style-loader" : MiniCssExtractPlugin.loader,
+            webpack.mode ? "style-loader" : MiniCssExtractPlugin.loader,
             {
               loader: "css-loader",
               query: {
@@ -163,15 +164,17 @@ module.exports = (env, argv) => {
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
-        filename: devMode ? "[name].css" : "./assets/stylesheets/[hash].css",
-        chunkFilename: devMode ? "[id].css" : "[id].[hash].css",
+        filename: webpack.mode
+          ? "[name].css"
+          : "./assets/stylesheets/[hash].css",
+        chunkFilename: webpack.mode ? "[id].css" : "[id].[hash].css",
       }),
       new HtmlWebpackPlugin({
         template: "src/index.html",
         inject: "body",
       }),
     ],
-    devtool: devMode ? "cheap-eval-source-map" : false,
+    devtool: webpack.mode ? "cheap-eval-source-map" : false,
     output: {
       filename: "[name].[hash].js",
       pathinfo: false,
