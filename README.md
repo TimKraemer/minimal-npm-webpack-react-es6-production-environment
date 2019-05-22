@@ -16,5 +16,5 @@ This is a clean example React Project. It has everything you need for a quick an
 * CSS, SCSS (SASS), LESS support
 * ESLint linting
 * Module Chunking
-* ... results at the time of writing to a production-build with a total size of `236 kB`
+* ... results at the time of writing to a production-build with a total size of `240 kB`
     
