@@ -1,12 +1,15 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HappyPack = require("happypack");
-const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
+// const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const autoprefixer = require("autoprefixer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
+const cssnano = require("cssnano");
+const ppe = require("postcss-preset-env");
 
-module.exports = () => {
+module.exports = (env, argv) => {
   return {
     resolve: {
       modules: ["src", "node_modules"],
@@ -25,31 +28,35 @@ module.exports = () => {
         {
           test: /\.s?[ac]ss$/,
           use: [
-            process.env.NODE_ENV === "development"
+            // fallback to style-loader in development
+            argv.mode !== "production"
               ? "style-loader"
               : MiniCssExtractPlugin.loader,
             {
               loader: "css-loader",
               query: {
-                modules: true,
                 importLoaders: 2,
-                localIdentName: "[name]__[local]--[hash:base64:5]",
-                camelCase: "dashes",
+                modules: {
+                  mode: "local",
+                  localIdentName: "[name]__[local]--[hash:base64:5]",
+                },
+                localsConvention: "dashes",
               },
             },
             {
               loader: "postcss-loader",
-              query: {
-                plugins: [autoprefixer],
+              options: {
+                ident: "postcss",
+                plugins: () => [ppe(), cssnano()],
               },
             },
-            "fast-sass-loader",
+            "sass-loader",
           ],
         },
         {
           test: /\.less$/,
           use: [
-            process.env.NODE_ENV === "development"
+            argv.mode !== "production"
               ? "style-loader"
               : MiniCssExtractPlugin.loader,
             {
@@ -145,6 +152,14 @@ module.exports = () => {
               loader: "html-loader",
               options: { minimize: true },
             },
+            {
+              loader: "html-minifier-loader",
+              options: {
+                collapseInlineTagWhitespace: true,
+                collapseWhitespace: true,
+                removeComments: true,
+              },
+            },
           ],
         },
       ],
@@ -162,70 +177,68 @@ module.exports = () => {
           },
         ],
       }),
-      new HardSourceWebpackPlugin(),
+      // new HardSourceWebpackPlugin(),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
         filename:
-          process.env.NODE_ENV === "development"
+          argv.mode !== "production"
             ? "[name].css"
             : "./assets/stylesheets/[hash].css",
         chunkFilename:
-          process.env.NODE_ENV === "development"
-            ? "[id].css"
-            : "[id].[hash].css",
+          argv.mode !== "production" ? "[id].css" : "[id].[hash].css",
       }),
+      new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         template: "src/index.html",
         inject: "body",
       }),
     ],
-    devtool:
-      process.env.NODE_ENV === "development" ? "cheap-eval-source-map" : false,
+    devtool: argv.mode !== "production" ? "cheap-eval-source-map" : false,
     output: {
       filename: "[name].[hash].js",
       pathinfo: false,
     },
-    optimization: {
-      runtimeChunk: true,
-      splitChunks: {
-        cacheGroups: {
-          vendor: {
-            chunks: "initial",
-            test: path.resolve(__dirname, "node_modules"),
-            name: "vendor",
-            enforce: true,
+    optimization:
+      argv.mode !== "production"
+        ? {}
+        : {
+          runtimeChunk: true,
+          splitChunks: {
+            cacheGroups: {
+              vendor: {
+                chunks: "initial",
+                test: path.resolve(__dirname, "node_modules"),
+                name: "vendor",
+                enforce: true,
+              },
+              commons: {
+                chunks: "initial",
+                minChunks: 3,
+                name: "commons",
+                enforce: true,
+              },
+            },
           },
-          commons: {
-            chunks: "initial",
-            minChunks: 3,
-            name: "commons",
-            enforce: true,
-          },
+          minimizer: [
+            new TerserPlugin({
+              extractComments: true,
+              cache: true,
+              parallel: true,
+              sourceMap: false,
+              terserOptions: {
+                extractComments: "all",
+                compress: {
+                  drop_console: true,
+                },
+                warnings: false,
+                ie8: true,
+                keep_classnames: false,
+                keep_fnames: false,
+                safari10: true,
+              },
+            }),
+          ],
         },
-      },
-      minimizer: [
-        new UglifyJsPlugin({
-          sourceMap: false,
-          uglifyOptions: {
-            warnings: false,
-            output: {
-              comments: false,
-              beautify: false,
-            },
-            compress: {
-              drop_console: true,
-              keep_fargs: false, // You need this to be true for code which relies on Function.length.
-              keep_fnames: false,
-              passes: 3,
-            },
-            ie8: true,
-            keep_classnames: false,
-            keep_fnames: false,
-            safari10: true,
-          },
-        }),
-      ],
-    },
   };
 };

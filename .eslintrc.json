@@ -1,10 +1,11 @@
 {
 	"env": {
 		"browser": true,
-		"es6": true
+		"es6": true,
+		"amd": true
 	},
 	"extends": [
-		"airbnb",
+		"eslint:recommended",
 		"prettier"
 	],
 	"parser": "babel-eslint",
@@ -20,6 +21,7 @@
 		"prettier"
 	],
 	"rules": {
+		"no-console": "off",
 		"react/forbid-prop-types": [
 			2,
 			{
