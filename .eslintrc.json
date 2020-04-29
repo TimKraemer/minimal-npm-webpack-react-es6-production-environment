@@ -1,41 +1,28 @@
 {
-	"env": {
-		"browser": true,
-		"es6": true,
-		"amd": true
-	},
-	"extends": [
-		"eslint:recommended",
-		"prettier"
-	],
-	"parser": "babel-eslint",
-	"parserOptions": {
-		"ecmaFeatures": {
-			"experimentalObjectRestSpread": true,
-			"jsx": true
-		},
-		"sourceType": "module"
-	},
-	"plugins": [
-		"react",
-		"prettier"
-	],
-	"rules": {
-		"no-console": "off",
-		"react/forbid-prop-types": [
-			2,
-			{
-				"forbid": [
-					"any",
-					"array"
-				]
-			}
-		],
-		"prettier/prettier": [
-			"error",
-			{
-				"trailingComma": "es5"
-			}
-		]
-	}
+  "env": {
+    "browser": true,
+    "es6": true,
+    "amd": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "prettier"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "prettier"
+  ],
+  "rules": {
+    "no-console": "off"
+  }
 }

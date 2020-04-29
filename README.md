@@ -14,7 +14,7 @@ This is a clean example React Project. It has everything you need for a quick an
 * ES6 Support
 * Polyfills
 * CSS, SCSS (SASS), LESS support
-* ESLint linting
+* ESLint linting with 'prettier'
 * Module Chunking
-* ... results at the time of writing to a production-build with a total size of `256 kB`
+* ... results at the time of writing to a production-build with a total size of `268 kB`
     

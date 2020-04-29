@@ -89,12 +89,13 @@ module.exports = (env, argv) => {
         },
         {
           test: /.*\.(gif|png|jpe?g|svg)$/i,
-          loaders: [
+          use: [
             {
               loader: "url-loader?name=assets/img/[hash].[ext]",
               options: {
                 limit: 5000,
-              },
+                esModule: false
+              }
             },
             {
               loader: "image-webpack-loader",
@@ -186,18 +187,18 @@ module.exports = (env, argv) => {
             ? "[name].css"
             : "./assets/stylesheets/[hash].css",
         chunkFilename:
-          argv.mode !== "production" ? "[id].css" : "[id].[hash].css",
+          argv.mode !== "production" ? "[id].css" : "[id].[hash].css"
       }),
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         template: "src/index.html",
-        inject: "body",
-      }),
+        inject: "body"
+      })
     ],
-    devtool: argv.mode !== "production" ? "cheap-eval-source-map" : false,
+    devtool: argv.mode !== "production" ? "eval-source-map" : false,
     output: {
       filename: "[name].[hash].js",
-      pathinfo: false,
+      pathinfo: false
     },
     optimization:
       argv.mode !== "production"
@@ -210,15 +211,15 @@ module.exports = (env, argv) => {
                 chunks: "initial",
                 test: path.resolve(__dirname, "node_modules"),
                 name: "vendor",
-                enforce: true,
+                enforce: true
               },
               commons: {
                 chunks: "initial",
                 minChunks: 3,
                 name: "commons",
-                enforce: true,
-              },
-            },
+                enforce: true
+              }
+            }
           },
           minimizer: [
             new TerserPlugin({
@@ -229,16 +230,16 @@ module.exports = (env, argv) => {
               terserOptions: {
                 extractComments: "all",
                 compress: {
-                  drop_console: true,
+                  drop_console: true
                 },
                 warnings: false,
                 ie8: true,
                 keep_classnames: false,
                 keep_fnames: false,
-                safari10: true,
-              },
-            }),
-          ],
-        },
+                safari10: true
+              }
+            })
+          ]
+        }
   };
 };
