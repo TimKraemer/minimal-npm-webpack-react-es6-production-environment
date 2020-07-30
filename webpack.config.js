@@ -15,15 +15,15 @@ module.exports = (env, argv) => {
       modules: ["src", "node_modules"],
       extensions: [".js", ".jsx", ".json"],
       alias: {
-        "react-dom": "@hot-loader/react-dom",
-      },
+        "react-dom": "@hot-loader/react-dom"
+      }
     },
     module: {
       rules: [
         {
           test: /\.jsx$/,
           exclude: /node_modules/,
-          use: "happypack/loader",
+          use: "happypack/loader"
         },
         {
           test: /\.s?[ac]ss$/,
@@ -34,24 +34,23 @@ module.exports = (env, argv) => {
               : MiniCssExtractPlugin.loader,
             {
               loader: "css-loader",
-              query: {
+              options: {
                 importLoaders: 2,
                 modules: {
                   mode: "local",
-                  localIdentName: "[name]__[local]--[hash:base64:5]",
-                },
-                localsConvention: "dashes",
-              },
+                  localIdentName: "[name]__[local]--[hash:base64:5]"
+                }
+              }
             },
             {
               loader: "postcss-loader",
               options: {
                 ident: "postcss",
-                plugins: () => [ppe(), cssnano()],
-              },
+                plugins: () => [ppe(), cssnano()]
+              }
             },
-            "sass-loader",
-          ],
+            "sass-loader"
+          ]
         },
         {
           test: /\.less$/,
@@ -65,27 +64,27 @@ module.exports = (env, argv) => {
                 modules: true,
                 importLoaders: 2,
                 localIdentName: "[name]__[local]--[hash:base64:5]",
-                camelCase: "dashes",
-              },
+                camelCase: "dashes"
+              }
             },
             {
               loader: "postcss-loader",
               query: {
-                plugins: [autoprefixer],
-              },
+                plugins: [autoprefixer]
+              }
             },
             {
               loader: "less-loader",
               query: {
                 relativeUrls: true,
-                javascriptEnabled: true,
-              },
-            },
-          ],
+                javascriptEnabled: true
+              }
+            }
+          ]
         },
         {
           test: /\.json$/,
-          loader: "json-loader",
+          loader: "json-loader"
         },
         {
           test: /.*\.(gif|png|jpe?g|svg)$/i,
@@ -103,20 +102,20 @@ module.exports = (env, argv) => {
                 pngquant: {
                   quality: "65-90",
                   speed: 4,
-                  floyd: 0.5,
+                  floyd: 0.5
                 },
                 gifsicle: { interlaced: false },
                 jpegtran: {
                   progressive: true,
-                  arithmetic: false,
+                  arithmetic: false
                 },
                 optipng: { optimizationLevel: 7 },
                 svgo: {
-                  plugins: [{ removeTitle: true }, { convertPathData: false }],
-                },
-              },
-            },
-          ],
+                  plugins: [{ removeTitle: true }, { convertPathData: false }]
+                }
+              }
+            }
+          ]
         },
         {
           test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
@@ -125,10 +124,10 @@ module.exports = (env, argv) => {
               loader: "url-loader?name=assets/img/[hash].[ext]",
               options: {
                 limit: 10000,
-                mimetype: "application/font-woff",
-              },
-            },
-          ],
+                mimetype: "application/font-woff"
+              }
+            }
+          ]
         },
         {
           test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
@@ -137,33 +136,33 @@ module.exports = (env, argv) => {
               loader: "url-loader?name=assets/img/[hash].[ext]",
               options: {
                 limit: 10000,
-                mimetype: "application/octet-stream",
-              },
-            },
-          ],
+                mimetype: "application/octet-stream"
+              }
+            }
+          ]
         },
         {
           test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-          loader: "file-loader",
+          loader: "file-loader"
         },
         {
           test: /\.html$/,
           use: [
             {
               loader: "html-loader",
-              options: { minimize: true },
+              options: { minimize: true }
             },
             {
               loader: "html-minifier-loader",
               options: {
                 collapseInlineTagWhitespace: true,
                 collapseWhitespace: true,
-                removeComments: true,
-              },
-            },
-          ],
-        },
-      ],
+                removeComments: true
+              }
+            }
+          ]
+        }
+      ]
     },
     plugins: [
       new HappyPack({
@@ -173,10 +172,10 @@ module.exports = (env, argv) => {
             loader: "babel-loader",
             options: {
               cacheDirectory: true,
-              plugins: ["react-hot-loader/babel"],
-            },
-          },
-        ],
+              plugins: ["react-hot-loader/babel"]
+            }
+          }
+        ]
       }),
       // new HardSourceWebpackPlugin(),
       new MiniCssExtractPlugin({
