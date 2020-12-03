@@ -1,3 +1,6 @@
+# DEPRECATED!
+**this can be safely replaced by `create-react-app` and is therefore not needed anymore. Futhermore I strongly advice against using this, since the security implications of old and not maintained npm packages are critical!**
+
 # simple, clean and minimal
 This is a clean example React Project. It has everything you need for a quick and comfortable start into React.
 
